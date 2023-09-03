@@ -13,7 +13,8 @@ module.exports = (env, argv) => {
       path: path.resolve(__dirname, "dist"),
     },
     devServer: {
-      staic: "./dist",
+      open:true,
+      static: "./dist",
     },
     module: {
       rules: [
@@ -23,21 +24,34 @@ module.exports = (env, argv) => {
           use: "babel-loader",
         },
         {
+          test: /\.(png|jpg|jpeg|gif|svg)$/,
+          type: 'asset/resource',
+          generator: {
+                filename: 'images/[name][ext]', //移入到imges目录下
+              },
+        },
+        {
           test: /\.css$/,
           use: [
-            isProduction ? MiniCssExtractPlugin.loader : "style-loader",
-            "css-loader",
+            isProduction
+              ? MiniCssExtractPlugin.loader
+              : "style-loader",
+              {
+                loader: 'css-loader',
+              },
           ],
         },
+       
       ],
     },
     plugins: [
       new HtmlWebpackPlugin({
         template: "./public/index.html",
+        filename: "index.html",
       }),
       isProduction &&
         new MiniCssExtractPlugin({
-          filename: "styles.[contenthash].css",
+          filename:"style_[contenthash].css"
         }),
     ].filter(Boolean),
   };
