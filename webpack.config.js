@@ -51,7 +51,7 @@ module.exports = (env, argv) => {
       }),
       isProduction &&
         new MiniCssExtractPlugin({
-          filename:"style_[contenthash].css"
+          filename: "style/[name]_[contenthash].css"
         }),
     ].filter(Boolean),
   };
