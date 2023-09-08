@@ -1,3 +1,5 @@
+import { typeof_all } from './until'
+
 export class Rectangle {
     constructor(width, height, left, top, xSpeed, ySpeed, dom) {
         this.width = width;
@@ -11,12 +13,18 @@ export class Rectangle {
 
 
     static getDomStyle(selector) {
-        const dom = document.querySelector(selector);
+        let dom = selector;
+        if (typeof_all(selector) === "string") {
+            dom = document.querySelector(selector);
+        }
+        
         const domStyle = getComputedStyle(dom);
         const domWidth = parseFloat(domStyle.width);
         const domHeight = parseFloat(domStyle.height);
+        const domTop = parseFloat(domStyle.top);
+        const domLeft = parseFloat(domStyle.left)
         return {
-            domWidth, domHeight, dom, domStyle
+            domWidth, domHeight, domTop, domLeft, dom, domStyle
         }
     }
 
@@ -32,9 +40,9 @@ export class Rectangle {
     move(duration) {
         const xDis = this.xSpeed * duration;
         const yDis = this.ySpeed * duration;
-    
-        const newLeft = parseFloat(this.left) + xDis
-        const newTop = parseFloat(this.top) + yDis
+
+        const newLeft = this.left + xDis
+        const newTop = this.top + yDis
 
         this.left = newLeft;
         this.top = newTop;

@@ -7,6 +7,7 @@ module.exports = (env, argv) => {
 
   return {
     entry: "./src/index.js",
+    devtool: isProduction ? null:'source-map',
     output: {
       clean: true,
       filename: isProduction ? "bundle.[contenthash].js" : "bundle.js",

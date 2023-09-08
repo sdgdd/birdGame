@@ -1,7 +1,6 @@
 import { Rectangle } from './rectangle'
 
-const { domHeight, domWidth, dom, domStyle } = Rectangle.getDomStyle('.land');
-const landTop = domStyle.top
+const { domHeight, domWidth, dom ,domTop:landTop} = Rectangle.getDomStyle('.land');
 
 export class Land extends Rectangle {
     constructor(xSpeed, ySpeed) {

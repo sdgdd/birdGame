@@ -1,14 +1,14 @@
 import { Rectangle } from './rectangle'
 
-const { domHeight, domWidth, dom, domStyle } = Rectangle.getDomStyle('.bird');
+const { domHeight, domWidth, dom, domStyle ,domLeft,domTop} = Rectangle.getDomStyle('.bird');
 const { domHeight: gameHeight } = Rectangle.getDomStyle('.game');
-const { domHeight: landHeight } = Rectangle.getDomStyle('.land');
+const { domHeight: landHeight,domTop:landTop} = Rectangle.getDomStyle('.land');
 
 export class Bird extends Rectangle {
     constructor() {
-        super(domWidth, domHeight, domStyle.left, domStyle.top, 0, 1, dom);
+        super(domWidth, domHeight, domLeft, domTop, 0, 1, dom);
         this.g = 9.8;
-        this.maxY = gameHeight - landHeight - domHeight;
+        this.maxY =landTop - domHeight
         this.swingStatus = 0;
         this.swingStatusMap = [
             'bg-frame_1',
@@ -37,7 +37,7 @@ export class Bird extends Rectangle {
     }
 
     jump() {
-        this.ySpeed = -50
+        this.ySpeed = -30
     }
 
     move(duration) {
@@ -48,9 +48,9 @@ export class Bird extends Rectangle {
     onMove() {
         if (this.top < 0) {
             this.top = 0
-        } else if (this.top > this.maxY) {
-            this.top = this.maxY + 'px';
-            this.stopSwing()
+        } else if (this.top >= this.maxY) {
+            this.top = this.maxY
+            this.stopSwing();
         };
     }
 }
