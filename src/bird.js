@@ -1,14 +1,20 @@
 import { Rectangle } from './rectangle'
 
-const { domHeight, domWidth, dom, domStyle ,domLeft,domTop} = Rectangle.getDomStyle('.bird');
-const { domHeight: gameHeight } = Rectangle.getDomStyle('.game');
-const { domHeight: landHeight,domTop:landTop} = Rectangle.getDomStyle('.land');
+const { domHeight, domWidth, dom, domStyle, domLeft, domTop } = Rectangle.getDomStyle('.bird');
+const { domTop: landTop } = Rectangle.getDomStyle('.land');
 
 export class Bird extends Rectangle {
+    /**
+     * 创建小鸟实例
+     */
     constructor() {
         super(domWidth, domHeight, domLeft, domTop, 0, 1, dom);
+
+        /** 加速度 */
         this.g = 9.8;
-        this.maxY =landTop - domHeight
+
+        /** 小鸟落地高度 */
+        this.maxY = landTop - domHeight
         this.swingStatus = 0;
         this.swingStatusMap = [
             'bg-frame_1',
@@ -18,6 +24,7 @@ export class Bird extends Rectangle {
         this.timer = null;
     }
 
+    /** 开启翅膀扇动 */
     startSwing() {
         if (this.timer) return null;
         this.timer = setInterval(() => {
@@ -25,26 +32,32 @@ export class Bird extends Rectangle {
             this.render();
         }, 50)
     }
-
+    /** 停止翅膀扇动 */
     stopSwing() {
         clearInterval(this.timer);
         this.timer = null;
     }
 
-    render(){
+    render() {
         super.render();
         this.dom.className = this.swingStatusMap[this.swingStatus] + ' bird';
     }
 
+    /** 小鸟向上你跳跃*/
     jump() {
         this.ySpeed = -30
     }
 
+    /** 
+     * 更新小鸟位置信息
+     * @param {number} duration 距上次移动的时间间隔
+     */
     move(duration) {
         this.ySpeed += this.g * duration;
         super.move(duration)
     }
 
+    /** 小鸟位置更新后的边界判断处理*/
     onMove() {
         if (this.top < 0) {
             this.top = 0
