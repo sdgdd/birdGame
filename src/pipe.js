@@ -1,5 +1,5 @@
 import { Rectangle } from './rectangle'
-import { randomRange } from './until'
+import { randomRange, setIntervalAnimal } from './until'
 
 const { domTop: landTop } = Rectangle.getDomStyle('.land');
 
@@ -117,10 +117,13 @@ export class MangerPipe {
      * 定时生成管道对
      */
     genteratePipePair() {
-        setInterval(() => {
+
+        window.myss= setIntervalAnimal(() => {
             this.managerIns.filter((ins) => ins.isUsing())
             this.managerIns.push(new PipePair(this.speen));
         }, this.pipeGenterateDuraton)
+
+        
     }
 
     /**
