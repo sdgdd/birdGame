@@ -1,5 +1,5 @@
 import { Rectangle } from './rectangle'
-import { randomRange, setIntervalAnimal } from './until'
+import { randomRange, setIntervalAnimal } from '../until'
 
 const { domTop: landTop } = Rectangle.getDomStyle('.land');
 
