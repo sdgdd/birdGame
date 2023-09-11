@@ -1,4 +1,4 @@
-import { typeof_all } from './until'
+import { typeof_all } from '../until'
 
 export class Rectangle {
     /**

@@ -1,0 +1,123 @@
+require('../../public/style/bird.css');
+const { Sky } = require('../base/sky')
+const { Land } = require('../base/land')
+const { Bird } = require('../base/bird')
+const { ProductPipePair } = require('../base/pipe');
+const { setIntervalAnimal } = require('../until');
+const { Scenes } = require('./scence');
+
+
+export class Game {
+    constructor() {
+        this.sky = new Sky(-10, 0);
+        this.land = new Land(-15);
+        this.bird = new Bird(0, 1);
+        this.pipe = new ProductPipePair(-10);
+        this.scene = new Scenes();
+        this.commonDruation = 100;
+        this.timers = [];
+        this.xspeed = 600;
+    }
+
+    /**
+     * 初始化游戏角色
+     */
+    init() {
+        this.scene.changeScene('start');
+        this.timers.push(setIntervalAnimal.call(this, this.backgroundAnimal, 80));
+        this.timers.push(setIntervalAnimal(() => {
+            this.bird.move(0.5);
+            if (this.bird.liftVal <= 0) {
+                this.over();
+            }
+        }, 80))
+        this.timers.push(this.pipe.genteratePipePair());
+        this.addOptrEven();
+    }
+
+    /**
+     *  重置小鸟状态
+     */
+    reset() {
+        this.bird.reset();
+        this.scene.changeScene('start');
+        this.stop();
+    }
+
+    /**
+     * 开始游戏
+     */
+    start() {
+        this.scene.changeScene('playing');
+        this.bird.startSwing();
+        this.timers.forEach((timer) => {
+            timer.start()
+        })
+    }
+    /**
+     * 停止游戏
+     */
+    stop() {
+        this.scene.changeScene('start');
+        this.bird.stopSwing();
+        this.timers.forEach((timer) => {
+            timer.stop()
+        })
+    }
+    /**
+     * 结束游戏
+     */
+    over() {
+        this.scene.changeScene('over');
+        this.timers.forEach((timer) => {
+            timer.stop()
+        })
+    }
+    /**
+     * 背景动画
+     */
+    backgroundAnimal() {
+        this.pipe.move(this.timeTranst(this.xspeed));
+        this.sky.move(this.timeTranst(this.xspeed));
+        this.land.move(this.timeTranst(this.xspeed));
+    }
+    timeTranst(time) {
+        return time / 1000
+    }
+    /**
+     * 加入键盘点击操作事件
+     */
+    addOptrEven() {
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Space') {
+                this.bird.jump()
+            }
+
+            if (event.code === 'Enter') {
+                this.stop()
+            }
+        })
+
+        document.addEventListener('click', () => {
+            this.bird.jump()
+        });
+
+        document.querySelector('.mask').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const className = e.currentTarget.className
+            if (className.includes('mask_start')) {
+                this.start();
+            } else if (className.includes('mask_over')) {
+                this.reset()
+            }
+
+        })
+
+    }
+
+}
+
+
+
+
+

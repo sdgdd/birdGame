@@ -27,12 +27,12 @@ export function randomRange(min, max) {
 export function setIntervalAnimal(callback, duration = 0) {
     let clearId = null;
     let stratTime = 0;
-    let done = true
-
+    let done = false;
+    let that = this
     function fn(DOMHighResTimeStamp) {
         if ((DOMHighResTimeStamp - stratTime >= duration) && done) {
-            stratTime = DOMHighResTimeStamp
-            callback();
+            stratTime = DOMHighResTimeStamp;
+            callback.call(that);
         }
         clearId = window.requestAnimationFrame(fn);
     }

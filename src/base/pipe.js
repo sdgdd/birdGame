@@ -1,5 +1,5 @@
 import { Rectangle } from './rectangle'
-import { randomRange, setIntervalAnimal } from './until'
+import { randomRange, setIntervalAnimal } from '../until'
 
 const { domTop: landTop } = Rectangle.getDomStyle('.land');
 
@@ -77,6 +77,8 @@ export class PipePair {
         this.pipeUpIns.move(duration);
     }
 
+    
+
     /**
      * 判断是否还在使用该对象，没有使用就销毁
      * @returns {boolean} 是否还在使用管道对
@@ -99,7 +101,7 @@ export class PipePair {
 }
 
 
-export class MangerPipe {
+export class ProductPipePair{
     /**
      * 管道对管理类
      * @param {number} speed 管道移动速度
@@ -108,7 +110,7 @@ export class MangerPipe {
     constructor(speed, pipeGenterateDuraton = 4000) {
         this.speen = speed;
         this.pipeGenterateDuraton = pipeGenterateDuraton;
-
+        this.timer=null;
         /** 管道对实例管理列表 */
         this.managerIns = [];
     }
@@ -117,13 +119,32 @@ export class MangerPipe {
      * 定时生成管道对
      */
     genteratePipePair() {
-
-        window.myss= setIntervalAnimal(() => {
-            this.managerIns.filter((ins) => ins.isUsing())
+        this.timer= setIntervalAnimal(() => {
+            this.managerIns.filter((ins) => ins.isUsing());
             this.managerIns.push(new PipePair(this.speen));
-        }, this.pipeGenterateDuraton)
+        }, this.pipeGenterateDuraton);
+        return this.timer;
+    }
 
-        
+    /**
+     * 停止产生管道对
+     */
+    stopGenterate(){
+        this.timer.stop();
+    }
+
+    /**
+     * 恢复生产管道对
+     */
+    reStartGenterate(){
+        this.timer.start()
+    }
+
+    /**
+     * 销毁对象
+     */
+    destory(){
+        this.timer.destory()
     }
 
     /**
