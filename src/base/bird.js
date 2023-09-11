@@ -12,7 +12,9 @@ export class Bird extends Rectangle {
 
         /** 加速度 */
         this.g = 9.8;
-
+        this.initTop = domTop;
+        this.initSpeed = 1;
+        this.liftVal = 1
         /** 小鸟落地高度 */
         this.maxY = landTop - domHeight
         this.swingStatus = 0;
@@ -48,6 +50,12 @@ export class Bird extends Rectangle {
         this.ySpeed = -30
     }
 
+    reset() {
+        this.top = this.initTop;
+        this.ySpeed = this.initSpeed;
+        this.liftVal = 1;
+    }
+
     /** 
      * 更新小鸟位置信息
      * @param {number} duration 距上次移动的时间间隔
@@ -64,6 +72,7 @@ export class Bird extends Rectangle {
         } else if (this.top >= this.maxY) {
             this.top = this.maxY
             this.stopSwing();
+            this.liftVal--;
         };
     }
 }
