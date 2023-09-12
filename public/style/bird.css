@@ -99,3 +99,35 @@
     background: url('../img/UI/gameover.png');
     background-size: 100% 100%;
 }
+
+.scoreboard {
+    display: flex;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    right: 0;
+    width: 150px;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.5); 
+    color: #fff;
+    padding: 10px 20px;
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    border-radius: 10px; 
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.score,
+.lives {
+    padding: 5px; 
+    background-color: #60c9d7; 
+    border-radius: 5px; 
+}
+
+.score {
+    margin-right: 10px; 
+}
+
+.lives {
+    color: #e74c3c;
+}
