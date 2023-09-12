@@ -5,13 +5,13 @@ const { Bird } = require('../base/bird')
 const { ProductPipePair } = require('../base/pipe');
 const { setIntervalAnimal } = require('../until');
 const { Scenes } = require('./scence');
-
+const { ImpactCheck } = require('./impactCheck')
 
 export class Game {
     constructor() {
         this.sky = new Sky(-10, 0);
         this.land = new Land(-15);
-        this.bird = new Bird(0, 1);
+        this.bird = new Bird();
         this.pipe = new ProductPipePair(-10);
         this.scene = new Scenes();
         this.commonDruation = 100;
@@ -23,11 +23,15 @@ export class Game {
      * 初始化游戏角色
      */
     init() {
+        this.impactCheck = new ImpactCheck(this.bird, this.pipe);
         this.scene.changeScene('start');
         this.timers.push(setIntervalAnimal.call(this, this.backgroundAnimal, 80));
         this.timers.push(setIntervalAnimal(() => {
+            if (this.impactCheck.check()) {
+                this.bird.lifeVal--;
+            }
             this.bird.move(0.5);
-            if (this.bird.liftVal <= 0) {
+            if (this.bird.lifeVal <= 0) {
                 this.over();
             }
         }, 80))

@@ -7,14 +7,14 @@ export class Bird extends Rectangle {
     /**
      * 创建小鸟实例
      */
-    constructor() {
+    constructor(lifeVal = 1) {
         super(domWidth, domHeight, domLeft, domTop, 0, 1, dom);
 
         /** 加速度 */
         this.g = 9.8;
         this.initTop = domTop;
         this.initSpeed = 1;
-        this.liftVal = 1
+        this.lifeVal = lifeVal
         /** 小鸟落地高度 */
         this.maxY = landTop - domHeight
         this.swingStatus = 0;
@@ -53,7 +53,7 @@ export class Bird extends Rectangle {
     reset() {
         this.top = this.initTop;
         this.ySpeed = this.initSpeed;
-        this.liftVal = 1;
+        this.lifeVal = 1;
     }
 
     /** 
@@ -72,7 +72,7 @@ export class Bird extends Rectangle {
         } else if (this.top >= this.maxY) {
             this.top = this.maxY
             this.stopSwing();
-            this.liftVal--;
+            this.lifeVal--;
         };
     }
 }

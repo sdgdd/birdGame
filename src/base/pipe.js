@@ -120,7 +120,7 @@ export class ProductPipePair{
      */
     genteratePipePair() {
         this.timer= setIntervalAnimal(() => {
-            this.managerIns.filter((ins) => ins.isUsing());
+            this.managerIns=this.managerIns.filter((ins) => ins.isUsing());
             this.managerIns.push(new PipePair(this.speen));
         }, this.pipeGenterateDuraton);
         return this.timer;
