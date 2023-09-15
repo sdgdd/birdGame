@@ -40,9 +40,20 @@ export class Bird extends Rectangle {
         this.timer = null;
     }
 
+
+    startInvincible(){
+        this.dom.classList.add("invincible")
+    }
+
+    stopInvincible(){
+        this.dom.classList.remove("invincible")
+    }
+
     render() {
         super.render();
-        this.dom.className = this.swingStatusMap[this.swingStatus] + ' bird';
+        const statusMapLength =  this.swingStatusMap.length
+        this.dom.classList.remove(this.swingStatusMap[(this.swingStatus+statusMapLength-1)%statusMapLength]);
+        this.dom.classList.add(this.swingStatusMap[this.swingStatus])
     }
 
     /** 小鸟向上你跳跃*/

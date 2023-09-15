@@ -25,10 +25,27 @@
     bottom: 0;
 }
 
+
+@keyframes fade {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 .bird {
     position: absolute;
     top: 20%;
     left: 20%;
+}
+
+.invincible{
+    animation: fade 1s infinite;
 }
 
 .pipe_down {

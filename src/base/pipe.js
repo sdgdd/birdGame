@@ -77,7 +77,7 @@ export class PipePair {
         this.pipeUpIns.move(duration);
     }
 
-    
+
 
     /**
      * 判断是否还在使用该对象，没有使用就销毁
@@ -101,7 +101,7 @@ export class PipePair {
 }
 
 
-export class ProductPipePair{
+export class ProductPipePair {
     /**
      * 管道对管理类
      * @param {number} speed 管道移动速度
@@ -110,7 +110,7 @@ export class ProductPipePair{
     constructor(speed, pipeGenterateDuraton = 4000) {
         this.speen = speed;
         this.pipeGenterateDuraton = pipeGenterateDuraton;
-        this.timer=null;
+        this.timer = null;
         /** 管道对实例管理列表 */
         this.managerIns = [];
     }
@@ -119,8 +119,8 @@ export class ProductPipePair{
      * 定时生成管道对
      */
     genteratePipePair() {
-        this.timer= setIntervalAnimal(() => {
-            this.managerIns=this.managerIns.filter((ins) => ins.isUsing());
+        this.timer = setIntervalAnimal(() => {
+            this.managerIns = this.managerIns.filter((ins) => ins.isUsing());
             this.managerIns.push(new PipePair(this.speen));
         }, this.pipeGenterateDuraton);
         return this.timer;
@@ -129,22 +129,39 @@ export class ProductPipePair{
     /**
      * 停止产生管道对
      */
-    stopGenterate(){
+    stopGenterate() {
         this.timer.stop();
     }
 
     /**
      * 恢复生产管道对
      */
-    reStartGenterate(){
+    reStartGenterate() {
         this.timer.start()
+    }
+
+    /**
+     * 获取管理的所有的管道dom元素
+     */
+    getProductedPipeDom() {
+        let result = []
+        this.managerIns.forEach((ins) => {
+            result.push(
+                ins.pipeUpIns.dom,
+                ins.pipeDownIns.dom
+            )
+        })
+        return result
     }
 
     /**
      * 销毁对象
      */
-    destory(){
-        this.timer.destory()
+    destory() {
+        this.timer.destory();
+        this.this.managerIns.forEach((ins) => {
+            ins.destory();
+        })
     }
 
     /**

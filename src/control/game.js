@@ -11,11 +11,12 @@ export class Game {
     constructor() {
         this.sky = new Sky(-10, 0);
         this.land = new Land(-15);
-        this.bird = new Bird();
+        this.bird = new Bird(2);
         this.pipe = new ProductPipePair(-10);
         this.scene = new Scenes();
         this.commonDruation = 100;
         this.timers = [];
+        this.isInvincible = true
         this.xspeed = 600;
     }
 
@@ -27,17 +28,33 @@ export class Game {
         this.scene.changeScene('start');
         this.timers.push(setIntervalAnimal.call(this, this.backgroundAnimal, 80));
         this.timers.push(setIntervalAnimal(() => {
-            if (this.impactCheck.check()) {
+            if (this.impactCheck.check() && this.isInvincible) {
                 this.bird.lifeVal--;
+                this.birdInvincibleStatus(4000)
             }
             this.bird.move(0.5);
             if (this.bird.lifeVal <= 0) {
+                this.bird.stopInvincible();
                 this.over();
             }
         }, 80))
         this.timers.push(this.pipe.genteratePipePair());
         this.addOptrEven();
     }
+
+    /**
+     * 设置小鸟无敌状态
+     * @param {number} duration 无敌状态的持续时间
+     */
+    birdInvincibleStatus(duration){
+        this.isInvincible = false;
+        this.bird.startInvincible();
+        setTimeout(()=>{
+            this.isInvincible = true;
+            this.bird.stopInvincible();
+        },duration)
+    }
+
 
     /**
      *  重置小鸟状态
